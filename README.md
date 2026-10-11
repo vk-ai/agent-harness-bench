@@ -40,12 +40,21 @@ Qwen2.5-0.5B-Instruct, Llama-3.2-1B-Instruct, Qwen2.5-1.5B-Instruct. Each runs o
 |  | context_full | 8 | 0.00 [0.00, 0.32] | 14.5 [13.4, 15.4] | 1568 [1558, 1579] | 0.0010 |
 |  | context_compressed | 8 | 0.12 [0.02, 0.47] | 52.2 [36.9, 71.3] | 1592 [1534, 1655] | 0.0050 |
 |  | ALL | 40 | 0.42 [0.28, 0.58] | 36.5 [29.7, 43.7] | 1102 [940, 1251] | 0.0030 |
+| qwen2.5-1.5b | parallel_tools | 8 | 0.88 [0.53, 0.98] | 35.5 [31.6, 39.6] | 1049 [1024, 1076] | 0.0030 |
+|  | sequential_tools | 8 | 0.25 [0.07, 0.59] | 17.9 [10.5, 26.0] | 982 [948, 1026] | 0.0020 |
+|  | structured_output | 8 | 1.00 [0.68, 1.00] | 20.4 [19.6, 21.3] | 225 [223, 228] | 0.0020 |
+|  | context_full | 8 | 0.00 [0.00, 0.32] | 10.6 [8.6, 12.1] | 1568 [1558, 1579] | 0.0010 |
+|  | context_compressed | 8 | 0.38 [0.14, 0.69] | 67.4 [57.0, 76.6] | 1717 [1702, 1733] | 0.0060 |
+|  | ALL | 40 | 0.50 [0.35, 0.65] | 30.4 [23.3, 37.3] | 1108 [933, 1266] | 0.0030 |
 
 | model | emitted parallel calls | schema-valid 1st try | schema-valid after repair | prompt cache off -> on (s) | wall clock |
 |---|---|---|---|---|---|
 | llama3.2-1b | 0.00 [0.0, 0.324] | 0.50 | 0.88 | 2.206 -> 0.685 (486 cached tok) | 18 min |
 | qwen2.5-0.5b | 1.00 [0.676, 1.0] | 0.88 | 0.88 | 3.522 -> 0.399 (465 cached tok) | 33 min |
+| qwen2.5-1.5b | 1.00 [0.676, 1.0] | 1.00 | 1.00 | 3.39 -> 1.048 (465 cached tok) | 21 min |
 <!-- /RESULTS -->
+
+**Headline:** Qwen2.5-1.5B did best overall at 0.50 [0.35, 0.65], with 100% schema-valid JSON and 7/8 parallel-tool tasks correct. Qwen2.5-0.5B emitted parallel calls reliably but did poorly on dependent multi-step chains. No model handled multi-step dependent tool chains well (≤ 3/8). For Qwen2.5-1.5B, compression lifted the long-context needle score from 0/8 to 3/8. CI's live job on an idle GitHub runner ran the same 0.5B model about 5-10x faster per call than my contended box.
 
 **Cost:** API cost is $0 because every model ran locally. "est. compute" = measured LLM wall-clock time ×
 an **assumed** $0.34/hour for an 8-vCPU on-demand VM. That rate is an estimate, not a bill.
